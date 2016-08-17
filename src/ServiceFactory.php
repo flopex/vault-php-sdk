@@ -10,6 +10,7 @@ class ServiceFactory
         'sys' => 'Jippi\Vault\Services\Sys',
         'data' => 'Jippi\Vault\Services\Data',
         'auth/token' => 'Jippi\Vault\Services\Auth\Token',
+        'transit/encrypt' => 'Jippi\Vault\Services\Transit\Encrypt',
     ];
 
     private $client;
