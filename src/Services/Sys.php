@@ -156,11 +156,7 @@ class Sys
     {
         $body = OptionsResolver::resolve($body, ['type', 'description', 'config']);
 
-        $params = [
-            'body' => json_encode($body)
-        ];
-
-        return $this->client->post('/v1/sys/mounts/' . $name, $params);
+        return $this->client->post('/v1/sys/mounts/' . $name, json_encode($body));
     }
 
     /**

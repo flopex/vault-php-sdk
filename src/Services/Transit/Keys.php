@@ -15,11 +15,11 @@ class Keys {
         $this->client = $client ?: new Client();
     }
 
-    public function createKey($name, $params) {
-        $body = OptionsResolver::resolve($params['body'], ['derived']);
-        $params['body'] = json_encode($body);
+    public function createKey($name, $body) {
+        $body = OptionsResolver::resolve($body, ['derived']);
+        $body = json_encode($body);
 
-        return $this->client->post(self::TRANSIT_KEYS_PATH.$name, $params);
+        return $this->client->post(self::TRANSIT_KEYS_PATH.$name, $body);
 
     }
 }

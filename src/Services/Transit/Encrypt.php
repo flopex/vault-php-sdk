@@ -15,11 +15,11 @@ class Encrypt {
         $this->client = $client ?: new Client();
     }
 
-    public function encrypt($name, $params) {
-        $body = OptionsResolver::resolve($params['body'], ['plaintext', 'context']);
-        $params['body'] = json_encode($body);
+    public function encrypt($name, $body) {
+        $body = OptionsResolver::resolve($body, ['plaintext', 'context']);
+        $body = json_encode($body);
 
-        return $this->client->post(self::TRANSIT_ENCRYPT_PATH.$name, $params)->json();
+        return $this->client->post(self::TRANSIT_ENCRYPT_PATH.$name, $body)->getBody();
     }
 
 }

@@ -4,7 +4,6 @@ namespace Jippi\Vault;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Jippi\Vault\Exception\ClientException;
@@ -26,52 +25,52 @@ class Client
         $this->logger = $logger ?: new NullLogger();
     }
 
-    public function get($url = null, array $options = array())
+    public function get($url, $body = '', array $headers = array())
     {
-        $request = new Request('GET',$url, $options);
+        $request = new Request('GET',$url, $headers, $body);
         return $this->send($request);
     }
 
-    public function head($url, array $options = array())
+    public function head($url, $body = '', array $headers = array())
     {
-        $request = new Request('HEAD',$url, $options);
+        $request = new Request('HEAD',$url, $headers, $body);
         return $this->send($request);
     }
 
-    public function delete($url, array $options = array())
+    public function delete($url, $body = '', array $headers = array())
     {
-        $request = new Request('DELETE',$url, $options);
+        $request = new Request('DELETE',$url, $headers, $body);
         return $this->send($request);
     }
 
-    public function put($url, array $options = array())
+    public function put($url, $body = '', array $headers = array())
     {
-        $request = new Request('PUT',$url, $options);
+        $request = new Request('PUT',$url, $headers, $body);
         return $this->send($request);
     }
 
-    public function patch($url, array $options = array())
+    public function patch($url, $body = '', array $headers = array())
     {
-        $request = new Request('PATCH',$url, $options);
+        $request = new Request('PATCH',$url, $headers, $body);
         return $this->send($request);
     }
 
-    public function post($url, array $options = array())
+    public function post($url, $body = '', array $headers = array())
     {
-        $request = new Request('POST',$url, $options);
+        $request = new Request('POST',$url, $headers, $body);
         return $this->send($request);
     }
 
-    public function options($url, array $options = array())
+    public function options($url, $body = '', array $headers = array())
     {
-        $request = new Request('OPTIONS',$url, $options);
+        $request = new Request('OPTIONS',$url, $headers, $body);
         return $this->send($request);
     }
 
     public function send(Request $request)
     {
-        $this->logger->info(sprintf('%s "%s"', $request->getMethod(), $request->getUrl()));
-        $this->logger->debug(sprintf("Request:\n%s", (string) $request));
+        $this->logger->info(sprintf('%s "%s"', $request->getMethod(), $request->getUri()));
+        $this->logger->debug(sprintf("Request:\n%s", \GuzzleHttp\Psr7\str($request)));
 
         try {
             $response = $this->client->send($request);
@@ -83,7 +82,7 @@ class Client
             throw new ServerException($message);
         }
 
-        $this->logger->debug(sprintf("Response:\n%s", $response));
+        $this->logger->debug(sprintf("Response:\n%s", \GuzzleHttp\Psr7\str($response)));
 
         if (400 <= $response->getStatusCode()) {
             $message = sprintf('Something went wrong when calling vault (%s - %s).', $response->getStatusCode(), $response->getReasonPhrase());
