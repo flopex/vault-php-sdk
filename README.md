@@ -1,5 +1,9 @@
 Vault PHP SDK
 =============
+**WORK IN PROGRESS -- DO NOT USE**
+--
+* Upgrading to Guzzle 6
+* Adding new services
 
 Installation
 ------------
