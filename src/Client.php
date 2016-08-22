@@ -3,7 +3,8 @@ namespace Jippi\Vault;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\TransferException;
-use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Jippi\Vault\Exception\ClientException;
@@ -18,49 +19,56 @@ class Client
     {
         $options = array_replace(array(
             'base_url' => 'http://127.0.0.1:8200',
+            'headers'  => ['exceptions' => false],
         ), $options);
 
         $this->client = $client ?: new GuzzleClient($options);
-        $this->client->setDefaultOption('exceptions', false);
         $this->logger = $logger ?: new NullLogger();
     }
 
     public function get($url = null, array $options = array())
     {
-        return $this->send($this->client->createRequest('GET', $url, $options));
+        $request = new Request('GET',$url, $options);
+        return $this->send($request);
     }
 
     public function head($url, array $options = array())
     {
-        return $this->send($this->client->createRequest('HEAD', $url, $options));
+        $request = new Request('HEAD',$url, $options);
+        return $this->send($request);
     }
 
     public function delete($url, array $options = array())
     {
-        return $this->send($this->client->createRequest('DELETE', $url, $options));
+        $request = new Request('DELETE',$url, $options);
+        return $this->send($request);
     }
 
     public function put($url, array $options = array())
     {
-        return $this->send($this->client->createRequest('PUT', $url, $options));
+        $request = new Request('PUT',$url, $options);
+        return $this->send($request);
     }
 
     public function patch($url, array $options = array())
     {
-        return $this->send($this->client->createRequest('PATCH', $url, $options));
+        $request = new Request('PATCH',$url, $options);
+        return $this->send($request);
     }
 
     public function post($url, array $options = array())
     {
-        return $this->send($this->client->createRequest('POST', $url, $options));
+        $request = new Request('POST',$url, $options);
+        return $this->send($request);
     }
 
     public function options($url, array $options = array())
     {
-        return $this->send($this->client->createRequest('OPTIONS', $url, $options));
+        $request = new Request('OPTIONS',$url, $options);
+        return $this->send($request);
     }
 
-    public function send(RequestInterface $request)
+    public function send(Request $request)
     {
         $this->logger->info(sprintf('%s "%s"', $request->getMethod(), $request->getUrl()));
         $this->logger->debug(sprintf("Request:\n%s", (string) $request));
