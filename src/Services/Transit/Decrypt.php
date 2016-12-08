@@ -19,8 +19,6 @@ class Decrypt {
         $body = OptionsResolver::resolve($body, ['ciphertext', 'context']);
         $body = json_encode($body);
 
-        var_dump(self::TRANSIT_DECRYPT_PATH.$name, $body);
-
         return $this->client->post(self::TRANSIT_DECRYPT_PATH.$name, $body)->getBody();
     }
 }
