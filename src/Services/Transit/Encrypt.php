@@ -21,5 +21,4 @@ class Encrypt {
 
         return $this->client->post(self::TRANSIT_ENCRYPT_PATH.$name, $body)->getBody();
     }
-
 }
