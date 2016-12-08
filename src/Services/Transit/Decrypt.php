@@ -5,9 +5,9 @@ namespace Jippi\Vault\Services\Transit;
 use Jippi\Vault\Client;
 use Jippi\Vault\OptionsResolver;
 
-class Encrypt {
+class Decrypt {
 
-    const TRANSIT_ENCRYPT_PATH = '/v1/transit/encrypt/';
+    const TRANSIT_DECRYPT_PATH = '/v1/transit/decrypt/';
 
     private $client;
 
@@ -15,10 +15,10 @@ class Encrypt {
         $this->client = $client ?: new Client();
     }
 
-    public function encrypt($name, $body) {
-        $body = OptionsResolver::resolve($body, ['plaintext', 'context']);
+    public function decrypt($name, $body) {
+        $body = OptionsResolver::resolve($body, ['ciphertext', 'context']);
         $body = json_encode($body);
 
-        return $this->client->post(self::TRANSIT_ENCRYPT_PATH.$name, $body)->getBody();
+        return $this->client->post(self::TRANSIT_DECRYPT_PATH.$name, $body)->getBody();
     }
 }
