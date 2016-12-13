@@ -12,6 +12,7 @@ class ServiceFactory
         'auth/token' => 'Jippi\Vault\Services\Auth\Token',
         'transit/encrypt' => 'Jippi\Vault\Services\Transit\Encrypt',
         'transit/decrypt' => 'Jippi\Vault\Services\Transit\Decrypt',
+        'transit/datakey' => 'Jippi\Vault\Services\Transit\DataKey',
         'transit/keys' => 'Jippi\Vault\Services\Transit\Keys',
     ];
 
